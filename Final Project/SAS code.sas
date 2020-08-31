@@ -1,10 +1,10 @@
-ods pdf file="E:\SAS\Final Project\½á¹ûÎÄ¼ş.pdf";
+ods pdf file="E:\SAS\Final Project\ç»“æœæ–‡ä»¶.pdf";
 proc import datafile='E:\SAS\Final Project\insurance.csv' out=file_data replace;
     getnames=yes;
 run;
 proc print data=file_data;
 run;
-/*ÎªÖ¸Ê¾±äÁ¿±àÂë*/
+/*ä¸ºæŒ‡ç¤ºå˜é‡ç¼–ç */
 data file_data_new;
 	set file_data;
 	select;
@@ -90,6 +90,4 @@ run;
 proc print data=model3_test;
 run;
 ods pdf close;
-DM "LOG;file'E:\SAS\Final Project\ÈÕÖ¾ÎÄ¼ş.txt'";
-
-
+DM "LOG;file'E:\SAS\Final Project\æ—¥å¿—æ–‡ä»¶.txt'";
