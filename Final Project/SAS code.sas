@@ -90,4 +90,5 @@ run;
 proc print data=model3_test;
 run;
 ods pdf close;
-DM "LOG;file'E:\SAS\Final Project\日志文件.txt'";
+DM "LOG;
+file'E:\SAS\Final Project\日志文件.txt'";
