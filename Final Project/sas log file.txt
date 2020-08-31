@@ -1,0 +1,384 @@
+NOTE: Copyright (c) 2002-2012 by SAS Institute Inc., Cary, NC, USA.
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M2 DBCS3170)
+      Licensed to NATIONAL PINGTUNG UNI OF SCIENCE&TECH, Site 12001462.
+NOTE: 该会话正在平台 X64_8HOME  上执行。
+
+
+
+NOTE: Updated analytical products:
+
+      SAS/STAT 13.2
+      SAS/ETS 13.2
+      SAS/OR 13.2
+      SAS/IML 13.2
+      SAS/QC 13.2
+
+NOTE: Additional host information:
+
+ X64_8HOME WIN 6.2.9200  Workstation
+
+NOTE: “SAS 初始化”所用时间:
+      实际时间          2.94 秒
+      CPU 时间          2.32 秒
+
+1    ods pdf file="E:\SAS\Final Project\结果文件.pdf";
+NOTE: 正在将 ODS PDF 输出写入 DISK 目标“E:\SAS\Final Project\结果文件.pdf”，打印机为“PDF”。
+2    proc import datafile='E:\SAS\Final Project\insurance.csv' out=file_data replace;
+3        getnames=yes;
+4    run;
+
+5     /**********************************************************************
+6     *   PRODUCT:   SAS
+7     *   VERSION:   9.4
+8     *   CREATOR:   External File Interface
+9     *   DATE:      22DEC19
+10    *   DESC:      Generated SAS Datastep Code
+11    *   TEMPLATE SOURCE:  (None Specified.)
+12    ***********************************************************************/
+13       data WORK.FILE_DATA    ;
+14       %let _EFIERR_ = 0; /* set the ERROR detection macro variable */
+15       infile 'E:\SAS\Final Project\insurance.csv' delimiter = ',' MISSOVER DSD lrecl=32767 firstobs=2 ;
+16          informat age best32. ;
+17          informat sex $6. ;
+18          informat bmi best32. ;
+19          informat children best32. ;
+20          informat smoker $3. ;
+21          informat region $9. ;
+22          informat charges best32. ;
+23          format age best12. ;
+24          format sex $6. ;
+25          format bmi best12. ;
+26          format children best12. ;
+27          format smoker $3. ;
+28          format region $9. ;
+29          format charges best12. ;
+30       input
+31                   age
+32                   sex $
+33                   bmi
+34                   children
+35                   smoker $
+36                   region $
+37                   charges
+38       ;
+39       if _ERROR_ then call symputx('_EFIERR_',1);  /* set ERROR detection macro variable */
+40       run;
+
+NOTE: INFILE 'E:\SAS\Final Project\insurance.csv' 是:
+      文件名=E:\SAS\Final Project\insurance.csv,
+      RECFM=V,LRECL=32767,文件大小（字节）=55628,
+      上次修改时间=2019年09月27日 17时19分14秒,
+      创建时间=2019年12月20日 16时46分27秒
+
+NOTE: 从 INFILE 'E:\SAS\Final Project\insurance.csv' 中读取了 1338 条记录。
+      最小记录长度是 33。
+      最大记录长度是 44。
+NOTE: 数据集 WORK.FILE_DATA 有 1338 个观测和 7 个变量。
+NOTE: “DATA 语句”所用时间（总处理时间）:
+      实际时间          0.07 秒
+      CPU 时间          0.06 秒
+
+
+1338 rows created in WORK.FILE_DATA from E:\SAS\Final Project\insurance.csv.
+
+
+
+NOTE: 成功创建“WORK.FILE_DATA”数据集。
+NOTE: 数据集 WORK.FILE_DATA 有 1338 个观测和 7 个变量。
+NOTE: “PROCEDURE IMPORT”所用时间（总处理时间）:
+      实际时间          0.25 秒
+      CPU 时间          0.15 秒
+
+
+41   proc print data=file_data;
+NOTE: 正在写入 HTML Body（主体）文件: sashtml.htm
+42   run;
+
+NOTE: 从数据集 WORK.FILE_DATA. 读取了 1338 个观测
+NOTE: “PROCEDURE PRINT”所用时间（总处理时间）:
+      实际时间          1.26 秒
+      CPU 时间          1.14 秒
+
+
+43   /*为指示变量编码*/
+44   data file_data_new;
+45       set file_data;
+46       select;
+47           when (sex="female") sex_new=0;
+48           when (sex="male") sex_new=1;
+49       end;
+50   run;
+
+NOTE: 从数据集 WORK.FILE_DATA. 读取了 1338 个观测
+NOTE: 数据集 WORK.FILE_DATA_NEW 有 1338 个观测和 8 个变量。
+NOTE: “DATA 语句”所用时间（总处理时间）:
+      实际时间          0.01 秒
+      CPU 时间          0.01 秒
+
+
+51   data file_data_new;
+52       set file_data_new;
+53       select;
+54           when (smoker="no") smoker_new=0;
+55           when (smoker="yes") smoker_new=1;
+56       end;
+57   run;
+
+NOTE: 从数据集 WORK.FILE_DATA_NEW. 读取了 1338 个观测
+NOTE: 数据集 WORK.FILE_DATA_NEW 有 1338 个观测和 9 个变量。
+NOTE: “DATA 语句”所用时间（总处理时间）:
+      实际时间          0.01 秒
+      CPU 时间          0.03 秒
+
+
+58   data file_data_new;
+59       set file_data_new;
+60       select;
+61           when (region="northwest") region1=0;
+62           when (region="northeast") region1=1;
+63           when (region="southwest") region1=0;
+64           when (region="southeast") region1=0;
+65       end;
+66   run;
+
+NOTE: 从数据集 WORK.FILE_DATA_NEW. 读取了 1338 个观测
+NOTE: 数据集 WORK.FILE_DATA_NEW 有 1338 个观测和 10 个变量。
+NOTE: “DATA 语句”所用时间（总处理时间）:
+      实际时间          0.01 秒
+      CPU 时间          0.01 秒
+
+
+67   data file_data_new;
+68       set file_data_new;
+69       select;
+70           when (region="northwest") region2=0;
+71           when (region="northeast") region2=0;
+72           when (region="southwest") region2=1;
+73           when (region="southeast") region2=0;
+74       end;
+75   run;
+
+NOTE: 从数据集 WORK.FILE_DATA_NEW. 读取了 1338 个观测
+NOTE: 数据集 WORK.FILE_DATA_NEW 有 1338 个观测和 11 个变量。
+NOTE: “DATA 语句”所用时间（总处理时间）:
+      实际时间          0.01 秒
+      CPU 时间          0.01 秒
+
+
+76   data file_data_new;
+77       set file_data_new;
+78       select;
+79           when (region="northwest") region3=0;
+80           when (region="northeast") region3=0;
+81           when (region="southwest") region3=0;
+82           when (region="southeast") region3=1;
+83       end;
+84   run;
+
+NOTE: 从数据集 WORK.FILE_DATA_NEW. 读取了 1338 个观测
+NOTE: 数据集 WORK.FILE_DATA_NEW 有 1338 个观测和 12 个变量。
+NOTE: “DATA 语句”所用时间（总处理时间）:
+      实际时间          0.01 秒
+      CPU 时间          0.01 秒
+
+
+85   proc print data=file_data_new;
+86   run;
+
+NOTE: 从数据集 WORK.FILE_DATA_NEW. 读取了 1338 个观测
+NOTE: “PROCEDURE PRINT”所用时间（总处理时间）:
+      实际时间          1.16 秒
+      CPU 时间          1.15 秒
+
+
+87   proc reg data=file_data_new outest=model1_test;
+88       model charges=age bmi children smoker_new sex_new region1 region2 region3/r corrb vif collin dw spec;
+89       output out=res_data1 r=res_multi student=stu_res press=press_res rstudent=rstu_res h=h;
+90       plot r.*p.;
+91   run;
+
+WARNING: The average covariance matrix for the SPEC test has been deemed singular which violates an assumption of the test.
+         Use caution when interpreting the results of the test.
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 有 30463 个字节写入“C:\Users\PC\AppData\Local\Temp\SAS Temporary Files\_TD29740_LAPTOP-8T0C34TN_\reg.png”。
+
+NOTE: 数据集 WORK.MODEL1_TEST 有 1 个观测和 14 个变量。
+NOTE: 数据集 WORK.RES_DATA1 有 1338 个观测和 17 个变量。
+NOTE: “PROCEDURE REG”所用时间（总处理时间）:
+      实际时间          38.90 秒
+      CPU 时间          22.09 秒
+
+
+92   proc univariate data=res_data1 normal plot;
+93       var res_multi;
+94   run;
+
+NOTE: “PROCEDURE UNIVARIATE”所用时间（总处理时间）:
+      实际时间          0.65 秒
+      CPU 时间          0.25 秒
+
+
+95   proc print data=model1_test;
+96   run;
+
+NOTE: 从数据集 WORK.MODEL1_TEST. 读取了 1 个观测
+NOTE: “PROCEDURE PRINT”所用时间（总处理时间）:
+      实际时间          0.03 秒
+      CPU 时间          0.04 秒
+
+
+97   proc reg data=file_data_new;
+98       model charges=age bmi children smoker_new sex_new region1 region2 region3/selection=stepwise;
+99       plot r.*p.;
+100  run;
+
+NOTE: 图形名“REG”更改为“REG1”。“REG”已被使用或不是有效的 SAS 名称。
+NOTE: 图形名“REG”更改为“REG1”。“REG”已被使用或不是有效的 SAS 名称。
+NOTE: 有 29879 个字节写入“C:\Users\PC\AppData\Local\Temp\SAS Temporary Files\_TD29740_LAPTOP-8T0C34TN_\reg1.png”。
+
+NOTE: “PROCEDURE REG”所用时间（总处理时间）:
+      实际时间          11.41 秒
+      CPU 时间          6.70 秒
+
+
+101  proc reg data=file_data_new outest=model2_test;
+102      model charges=age bmi children smoker_new region1/r corrb vif collin dw spec;
+103      output out=res_data2 r=res_multi student=stu_res press=press_res rstudent=rstu_res h=h;
+104      plot r.*p.;
+105  run;
+
+WARNING: The average covariance matrix for the SPEC test has been deemed singular which violates an assumption of the test.
+         Use caution when interpreting the results of the test.
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 图形名“REG”更改为“REG2”。“REG”已被使用或不是有效的 SAS 名称。
+NOTE: 图形名“REG”更改为“REG2”。“REG”已被使用或不是有效的 SAS 名称。
+NOTE: 有 29879 个字节写入“C:\Users\PC\AppData\Local\Temp\SAS Temporary Files\_TD29740_LAPTOP-8T0C34TN_\reg2.png”。
+
+NOTE: 数据集 WORK.MODEL2_TEST 有 1 个观测和 11 个变量。
+NOTE: 数据集 WORK.RES_DATA2 有 1338 个观测和 17 个变量。
+NOTE: “PROCEDURE REG”所用时间（总处理时间）:
+      实际时间          33.71 秒
+      CPU 时间          20.79 秒
+
+
+106  proc univariate data=res_data2 normal plot;
+107      var res_multi;
+108  run;
+
+NOTE: “PROCEDURE UNIVARIATE”所用时间（总处理时间）:
+      实际时间          0.56 秒
+      CPU 时间          0.23 秒
+
+
+109  proc print data=model2_test;
+110  run;
+
+NOTE: 从数据集 WORK.MODEL2_TEST. 读取了 1 个观测
+NOTE: “PROCEDURE PRINT”所用时间（总处理时间）:
+      实际时间          0.03 秒
+      CPU 时间          0.03 秒
+
+
+111  data res_data_model;
+112      set res_data2;
+113      if (stu_res>3 or stu_res<-3) then delete;
+114      if (cookd>0.003) then delete;
+115  run;
+
+NOTE: 变量 cookd 未初始化。
+NOTE: 从数据集 WORK.RES_DATA2. 读取了 1338 个观测
+NOTE: 数据集 WORK.RES_DATA_MODEL 有 1311 个观测和 18 个变量。
+NOTE: “DATA 语句”所用时间（总处理时间）:
+      实际时间          0.02 秒
+      CPU 时间          0.03 秒
+
+
+116  proc print data=res_data_model;
+117  run;
+
+NOTE: 从数据集 WORK.RES_DATA_MODEL. 读取了 1311 个观测
+NOTE: “PROCEDURE PRINT”所用时间（总处理时间）:
+      实际时间          2.83 秒
+      CPU 时间          2.82 秒
+
+
+118  proc reg data=res_data_model outest=model3_test;
+119      model charges=age bmi children smoker_new region1/r corrb vif collin dw spec;
+120      output out=res_data3 r=res_multi;
+121      plot r.*p.;
+122  run;
+
+WARNING: The average covariance matrix for the SPEC test has been deemed singular which violates an assumption of the test.
+         Use caution when interpreting the results of the test.
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 由于数据皮肤的使用，图形将呈现为图像。
+NOTE: 变量 res_multi 在文件“WORK.RES_DATA3”中已存在，改用 res_multi2。
+NOTE: 图形名“REG”更改为“REG3”。“REG”已被使用或不是有效的 SAS 名称。
+NOTE: 图形名“REG”更改为“REG3”。“REG”已被使用或不是有效的 SAS 名称。
+NOTE: 有 29441 个字节写入“C:\Users\PC\AppData\Local\Temp\SAS Temporary Files\_TD29740_LAPTOP-8T0C34TN_\reg3.png”。
+
+NOTE: 数据集 WORK.MODEL3_TEST 有 1 个观测和 11 个变量。
+NOTE: 数据集 WORK.RES_DATA3 有 1311 个观测和 19 个变量。
+NOTE: “PROCEDURE REG”所用时间（总处理时间）:
+      实际时间          34.20 秒
+      CPU 时间          21.40 秒
+
+
+123  proc univariate data=res_data3 normal plot;
+124      var res_multi;
+125  run;
+
+NOTE: “PROCEDURE UNIVARIATE”所用时间（总处理时间）:
+      实际时间          0.57 秒
+      CPU 时间          0.21 秒
+
+
+126  proc print data=model3_test;
+127  run;
+
+NOTE: 从数据集 WORK.MODEL3_TEST. 读取了 1 个观测
+NOTE: “PROCEDURE PRINT”所用时间（总处理时间）:
+      实际时间          0.04 秒
+      CPU 时间          0.04 秒
+
+
+128  ods pdf close;
+NOTE: ODS PDF 打印了 346 页，位置: E:\SAS\Final Project\结果文件.pdf。
